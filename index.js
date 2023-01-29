@@ -89,6 +89,27 @@ function Carousel({data, itemWidth, itemsPerBlock}) {
     : setChangedPosition((e.nativeEvent.pageX - element.current.offsetLeft) - startPosition)
     }
 
+    function handleTouchStart(e) {
+      setStatus(true)
+      setSmooth(null)
+      setStartPosition((e.touches[0].pageX - element.current.offsetLeft) - changedPosition)
+    }
+  
+    function handleTouchMove(e) {
+      if (!status) return;
+      changedPosition < -(itemWidth*data.length)-itemWidth || changedPosition > 0 ? null
+      : setChangedPosition((e.touches[0].pageX - element.current.offsetLeft) - startPosition)
+      }
+
+      function handleTouchEnd() {
+        if (!status) return;
+        setChangedPosition(Math.round(changedPosition/itemWidth)*itemWidth)
+        setSmooth('transform 0.5s')
+        setStatus(false)
+        changedPosition >= -itemWidth ? prev() : null
+        changedPosition <= -itemWidth*data.length ? next() : null
+      }
+
     function prev() {
       changedPosition >= -itemWidth ? (setChangedPosition(-itemWidth*data.length-itemWidth), setSmooth(null)) : (setChangedPosition(prev => prev + itemWidth), setSmooth('transform 0.5s'))
     }
@@ -124,8 +145,8 @@ function Carousel({data, itemWidth, itemsPerBlock}) {
     <div ref={element} className='section' style={xStyle}
     onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} 
     onMouseUp={handleMouseUpAndLeave} onMouseLeave={handleMouseUpAndLeave}
-    onTouchStart={handleMouseDown} onTouchMove={handleMouseMove}
-    onTouchEnd={handleMouseUpAndLeave} onTouchCancel={handleMouseUpAndLeave}>
+    onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd} onTouchCancel={handleTouchEnd}>
       
     {items.map((x)=>
         <div style={x.styleId === Math.round(itemsPerBlock/2) ? itemStyleActive : itemStyleNonActive} className='item'>
