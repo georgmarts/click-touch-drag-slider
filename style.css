@@ -1,0 +1,36 @@
+main {
+  display: flex;
+  align-items: center;
+  border: 3px solid black;
+  margin: 0 auto;
+  height: 300px;
+  overflow-x: hidden;
+}
+
+.section {
+  display: flex;
+  height: 250px;
+  user-select: none;
+}
+
+button {
+  margin: 0 auto;
+  width: 50px;
+  height: 30px;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: brown;
+  height: 100%;
+  flex-shrink: 0;
+  transition: transform 0.5s, background-color 0.5s;
+}
+
+.inner-content {
+  height: 70%;
+  width: 70%;
+  background-color: white;
+}
