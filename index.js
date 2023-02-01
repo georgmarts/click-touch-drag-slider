@@ -79,6 +79,7 @@ function ClickTouchMoveCarousel({data, itemWidth, itemsPerBlock}) {
       : setChangedPosition((e.nativeEvent.pageX - element.current.offsetLeft) - startPosition)
       }
 
+
     function handleMouseUpAndLeave() {
       if (!status) return;
       setChangedPosition(Math.round(changedPosition/itemWidth)*itemWidth)
@@ -86,6 +87,8 @@ function ClickTouchMoveCarousel({data, itemWidth, itemsPerBlock}) {
       setStatus(false)
       changedPosition >= -itemWidth ? prev() : null
       changedPosition <= -itemWidth*data.length ? next() : null
+      changedPosition < -itemWidth*data.length+itemWidth ? setChangedPosition(-itemWidth) : null
+      changedPosition > 0 ? setChangedPosition(-itemWidth*data.length) : null
     }
 
   // Functions for mobile devices
@@ -109,6 +112,8 @@ function ClickTouchMoveCarousel({data, itemWidth, itemsPerBlock}) {
         setStatus(false)
         changedPosition >= -itemWidth ? prev() : null
         changedPosition <= -itemWidth*data.length ? next() : null
+        changedPosition < -itemWidth*data.length+itemWidth ? setChangedPosition(-itemWidth) : null
+        changedPosition > 0 ? setChangedPosition(-itemWidth*data.length) : null
       }
 
 
@@ -117,6 +122,7 @@ function ClickTouchMoveCarousel({data, itemWidth, itemsPerBlock}) {
   useEffect(() => {
     changedPosition === 0 ? next() : null
     changedPosition === -itemWidth*data.length-itemWidth ? prev() : null
+    
   }, [changedPosition])
 
   console.log(changedPosition)
